@@ -2,7 +2,7 @@
 
 A single-file flashcard study app with spaced repetition, built for CSV-based decks. No install, no server, no dependencies — just open the HTML file.
 
-**Live**: https://m4zzi.github.io/desouza-flashcards/flashcards.html
+**Live**: https://m4zzi.github.io/desouza-flashcards/
 
 ---
 
