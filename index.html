@@ -9,21 +9,24 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --accent:#1D9E75;--accent2:#0F6E56;
-  --bg:#ffffff;--bg2:#f5f5f3;--bg3:#eeede9;
+  --bg:#fafaf8;--bg2:#f3f2ee;--bg3:#eae9e3;
   --txt:#1a1a18;--txt2:#6b6b67;--txt3:#9a9a96;
   --brd:rgba(0,0,0,0.1);--brd2:rgba(0,0,0,0.18);
   --radius:14px;--radius-sm:8px;
 }
 @media(prefers-color-scheme:dark){
   :root{
-    --bg:#1a1a18;--bg2:#242422;--bg3:#2e2e2b;
+    --bg:#181816;--bg2:#242422;--bg3:#2e2e2b;
     --txt:#f0efe8;--txt2:#9a9a96;--txt3:#6b6b67;
     --brd:rgba(255,255,255,0.1);--brd2:rgba(255,255,255,0.18);
   }
 }
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 body{font-family:'Lora',serif;background:var(--bg);color:var(--txt);min-height:100vh;font-size:15px;line-height:1.6}
-.app{max-width:700px;margin:0 auto;padding:2rem 1.5rem 4rem}
-h1{font-size:26px;font-weight:600;letter-spacing:-0.5px;margin-bottom:0}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 65% 0%,#e4f2ec 0%,transparent 55%);pointer-events:none;z-index:0}
+@media(prefers-color-scheme:dark){body::before{background:radial-gradient(ellipse at 65% 0%,rgba(29,158,117,0.07) 0%,transparent 55%)}}
+.app{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:2rem 1.5rem 4rem}
+h1{font-size:20px;font-weight:400;font-style:italic;letter-spacing:-0.3px;margin-bottom:0}
 .mono{font-family:'DM Mono',monospace}
 
 /* NAV */
@@ -34,7 +37,7 @@ h1{font-size:26px;font-weight:600;letter-spacing:-0.5px;margin-bottom:0}
 .tab.active{background:var(--bg);color:var(--txt);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 .badge{background:var(--accent);color:#fff;border-radius:99px;font-size:11px;font-family:'DM Mono',monospace;padding:1px 7px;margin-left:4px}
 
-.panel{display:none}.panel.active{display:block}
+.panel{display:none}.panel.active{display:block;animation:fadeUp .25s ease}
 
 /* UPLOAD */
 .upload-zone{border:2px dashed var(--brd2);border-radius:var(--radius);padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2);display:block}
@@ -48,7 +51,7 @@ input[type=file]{display:none}
 .deck-list{margin-top:1.25rem;display:flex;flex-direction:column;gap:8px}
 .deck-card{background:var(--bg2);border:0.5px solid var(--brd);border-radius:var(--radius-sm);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .deck-name{font-weight:600;font-size:15px}
-.deck-meta{font-size:12px;color:var(--txt2);margin-top:2px;font-family:'DM Mono',monospace}
+.deck-meta{font-size:12px;color:var(--txt2);margin-top:2px;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums}
 .btn-sm{background:transparent;border:0.5px solid var(--brd2);border-radius:var(--radius-sm);padding:6px 12px;cursor:pointer;font-family:'Lora',serif;font-size:13px;color:var(--txt2);transition:all .15s}
 .btn-sm:hover{background:var(--bg3);color:var(--txt)}
 .btn-danger:hover{border-color:#E24B4A;color:#E24B4A}
@@ -68,7 +71,7 @@ input[type=file]{display:none}
 .cat-grid{display:flex;flex-wrap:wrap;gap:8px}
 .cat-chip{background:var(--bg2);border:1.5px solid var(--brd);border-radius:var(--radius-sm);padding:12px 14px;cursor:pointer;transition:all .18s;user-select:none;min-width:120px;flex:1;max-width:200px}
 .cat-chip:hover{border-color:var(--accent);background:var(--bg3);outline:none}
-.cat-chip.sel{background:#9FE1CB;border-color:var(--accent)}
+.cat-chip.sel{background:#ddf2ec;border-color:var(--accent)}
 .cat-chip-name{font-weight:600;font-size:13px;color:var(--txt);margin-bottom:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cat-chip.sel .cat-chip-name{color:var(--accent2)}
 .cat-stats-row{display:flex;gap:0;border-top:0.5px solid var(--brd);padding-top:8px;margin-top:2px}
@@ -76,7 +79,7 @@ input[type=file]{display:none}
 .cat-stat{flex:1;text-align:center}
 .cat-stat+.cat-stat{border-left:0.5px solid var(--brd)}
 .cat-chip.sel .cat-stat+.cat-stat{border-left-color:rgba(0,0,0,0.08)}
-.cat-stat-val{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;line-height:1;color:var(--txt2)}
+.cat-stat-val{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;line-height:1;color:var(--txt2)}
 .cat-stat-lbl{font-size:9px;color:var(--txt3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em}
 .due-val{color:#E24B4A}
 .new-val{color:#378ADD}
@@ -97,24 +100,29 @@ input[type=file]{display:none}
 .session-header{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
 .progress-wrap{flex:1;height:5px;background:var(--bg3);border-radius:99px;overflow:hidden}
 .progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .4s ease}
-.session-info{font-size:12px;color:var(--txt2);font-family:'DM Mono',monospace;white-space:nowrap}
+.session-info{font-size:12px;color:var(--txt2);font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 /* FLASHCARD */
-.card-scene{perspective:1200px;max-width:560px;margin:0 auto 1.25rem}
+.card-scene{perspective:1200px;max-width:560px;margin:0 auto 1.25rem;animation:fadeUp .2s ease}
 .card-inner{display:grid;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);cursor:pointer}
 .card-inner.flipped{transform:rotateY(180deg)}
-.card-face{grid-area:1/1;min-height:280px;backface-visibility:hidden;border-radius:var(--radius);border:0.5px solid var(--brd2);background:var(--bg);padding:2rem 2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.card-face{grid-area:1/1;min-height:280px;backface-visibility:hidden;border-radius:var(--radius);border:0.5px solid var(--brd2);background:var(--bg);padding:2rem 2.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 2px 16px rgba(0,0,0,0.06),0 1px 4px rgba(0,0,0,0.04)}
 .card-back{transform:rotateY(180deg);background:var(--bg2)}
 .card-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem}
 .card-q-text{font-size:22px;line-height:1.55;font-style:italic;font-weight:400}
 .card-a-text{font-size:17px;line-height:1.7;font-weight:400;color:var(--txt)}
-.card-hint{font-size:12px;color:var(--txt3);margin-top:1.25rem}
+.card-hint{font-size:12px;color:var(--txt3);margin-top:1.25rem;transition:opacity .2s}
 .card-cat{font-size:11px;font-family:'DM Mono',monospace;color:var(--accent);margin-top:.75rem}
 
 /* RATING BUTTONS */
 .rate-row{max-width:560px;margin:0 auto}
 .rate-btns{display:flex;gap:8px}
-.rate-btn{flex:1;padding:14px 6px;border:1.5px solid transparent;border-radius:var(--radius-sm);cursor:pointer;font-family:'Lora',serif;font-size:13px;font-weight:600;transition:all .15s;text-align:center}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.rate-btn{flex:1;padding:14px 6px;border:1.5px solid transparent;border-radius:var(--radius-sm);cursor:pointer;font-family:'Lora',serif;font-size:13px;font-weight:600;transition:background .15s,border-color .15s;text-align:center;animation:fadeIn .15s ease both}
+.rate-btn:nth-child(1){animation-delay:0s}
+.rate-btn:nth-child(2){animation-delay:.04s}
+.rate-btn:nth-child(3){animation-delay:.08s}
+.rate-btn:nth-child(4){animation-delay:.12s}
 .rate-btn small{display:block;font-size:10px;font-family:'DM Mono',monospace;margin-top:3px;font-weight:400;opacity:.8}
 .r-again{background:#FDEAEA;border-color:#F7C1C1;color:#A32D2D}
 .r-hard{background:#FEF3E2;border-color:#FAC775;color:#854F0B}
@@ -138,7 +146,7 @@ input[type=file]{display:none}
 /* TEACH MODE */
 .teach-card{border:0.5px solid var(--brd);border-radius:var(--radius);background:var(--bg2);padding:1.75rem;margin-bottom:1rem;max-width:560px;margin-left:auto;margin-right:auto}
 .teach-cat{font-size:11px;font-family:'DM Mono',monospace;color:var(--accent);margin-bottom:.5rem}
-.teach-q{font-size:20px;font-weight:600;margin-bottom:.75rem;line-height:1.4}
+.teach-q{font-size:20px;font-weight:600;font-style:italic;margin-bottom:.75rem;line-height:1.4}
 .teach-a{color:var(--txt2);font-size:15px;line-height:1.6}
 .nav-btns{display:flex;gap:8px;max-width:560px;margin:0 auto}
 .nav-btn{flex:1;padding:11px;border:0.5px solid var(--brd2);border-radius:var(--radius-sm);cursor:pointer;font-family:'Lora',serif;font-size:14px;background:var(--bg);color:var(--txt);transition:all .15s}
@@ -153,14 +161,14 @@ input[type=file]{display:none}
 .results p{color:var(--txt2);margin-bottom:2rem;font-size:15px}
 .stat-row{display:flex;gap:10px;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
 .stat-card{background:var(--bg2);border-radius:var(--radius-sm);padding:16px 24px;min-width:100px}
-.stat-val{font-size:28px;font-weight:600;font-family:'DM Mono',monospace;color:var(--txt)}
+.stat-val{font-size:28px;font-weight:600;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;color:var(--txt)}
 .stat-lbl{font-size:12px;color:var(--txt2);margin-top:2px}
 
 /* PROGRESS */
 .prog-cat{background:var(--bg2);border:0.5px solid var(--brd);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:10px}
 .prog-cat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .prog-cat-name{font-weight:600;font-size:15px}
-.prog-cat-sub{font-size:12px;color:var(--txt2);font-family:'DM Mono',monospace}
+.prog-cat-sub{font-size:12px;color:var(--txt2);font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums}
 .prog-bar-wrap{height:10px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-bottom:10px;display:flex}
 .prog-seg{height:100%;transition:width .6s ease}
 .prog-stats{display:flex;gap:8px;flex-wrap:wrap}
@@ -206,7 +214,6 @@ input[type=file]{display:none}
       <button class="btn-sm" onclick="document.getElementById('csv-file').click()">＋ Add another deck</button>
     </div>
     <input type="file" id="csv-file" accept=".csv" multiple>
-
     <div class="deck-list" id="deck-list">
       <div class="empty">
         <div class="empty-icon">&#128218;</div>
@@ -264,40 +271,46 @@ input[type=file]{display:none}
 
 <script>
 // ── Config ────────────────────────────────────────────────────────────────
-// Set to a CSV filename in the same folder to auto-load on first visit.
-// Set to '' to disable.
 const DEFAULT_CSV = 'Foundations 2022.csv';
 
-// ── State ──────────────────────────────────────────────────────────────────
+// ── Constants ─────────────────────────────────────────────────────────────
+const UNCATEGORIZED  = 'Uncategorized';
+const MS_PER_DAY     = 86400000;
+const AGAIN_DELAY_MS = 10 * 60 * 1000;
+const RATING_COLORS  = { again:'#E24B4A', hard:'#EF9F27', good:'#1D9E75', easy:'#378ADD' };
+
+// ── State ─────────────────────────────────────────────────────────────────
 const S = {
   decks: [],
   srs: {},
   selDecks: new Set(),
   selCats: new Set(),
   mode: 'study',
-  quickFilter: null  // null | 'due' | 'new'
+  quickFilter: null
 };
 
-function saveToStorage() {
-  try {
-    localStorage.setItem('fc_decks', JSON.stringify(S.decks));
-    localStorage.setItem('fc_srs', JSON.stringify(S.srs));
-  } catch(e) {}
+function saveDecks() {
+  try { localStorage.setItem('fc_decks', JSON.stringify(S.decks)); } catch(e) {}
 }
+function saveSRS() {
+  try { localStorage.setItem('fc_srs', JSON.stringify(S.srs)); } catch(e) {}
+}
+function saveToStorage() { saveDecks(); saveSRS(); }
+
 try {
   const d = localStorage.getItem('fc_decks');
   const r = localStorage.getItem('fc_srs');
   if (d) S.decks = JSON.parse(d);
-  if (r) S.srs = JSON.parse(r);
+  if (r) S.srs   = JSON.parse(r);
 } catch(e) {}
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+// ── Core helpers ──────────────────────────────────────────────────────────
 function allCards() {
   return S.decks.flatMap(d => d.cards.map(c => ({...c, deckName: d.name})));
 }
 function allCats() {
   const s = new Set();
-  allCards().forEach(c => s.add(c.cat || 'Uncategorized'));
+  allCards().forEach(c => s.add(c.cat || UNCATEGORIZED));
   return [...s].sort();
 }
 function getSRS(id) {
@@ -307,42 +320,65 @@ function isDue(card) { return Date.now() >= getSRS(card.id).due; }
 function updateSRS(id, q) {
   let s = getSRS(id);
   if (q === 0) {
-    // Again: due in 10 minutes
     s.reps = 0;
-    s.ef = Math.max(1.3, s.ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
-    s.due = Date.now() + 10 * 60 * 1000;
+    s.ef   = Math.max(1.3, s.ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+    s.due  = Date.now() + AGAIN_DELAY_MS;
     s.lastQ = q;
     S.srs[id] = s;
-    saveToStorage();
+    saveSRS();
     return;
   }
   if (q === 2) {
-    // Hard: due in 1 day, reset reps
-    s.reps = 0;
-    s.interval = 1;
+    s.reps = 0; s.interval = 1;
   } else {
-    // Good (3) or Easy (5)
     s.interval = s.reps === 0 ? 1 : s.reps === 1 ? 6 : Math.round(s.interval * s.ef);
     s.reps++;
   }
-  s.ef = Math.max(1.3, s.ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
-  s.due = Date.now() + s.interval * 86400000;
+  s.ef   = Math.max(1.3, s.ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+  s.due  = Date.now() + s.interval * MS_PER_DAY;
   s.lastQ = q;
   S.srs[id] = s;
-  saveToStorage();
+  saveSRS();
 }
 function nextIntervals(id) {
   const s = getSRS(id);
   const nextI = s.reps < 1 ? 1 : s.reps < 2 ? 6 : Math.round(s.interval * s.ef);
   return [
-    {q:0, label:'Again', sub:'<10m', cls:'r-again'},
-    {q:2, label:'Hard',  sub:'1d',   cls:'r-hard'},
-    {q:3, label:'Good',  sub: nextI + 'd', cls:'r-good'},
-    {q:5, label:'Easy',  sub: Math.round(nextI * Math.max(1.3, s.ef + 0.15) * 1.3) + 'd', cls:'r-easy'}
+    {q:0, label:'Again', sub:'<10m',    cls:'r-again'},
+    {q:2, label:'Hard',  sub:'1d',      cls:'r-hard'},
+    {q:3, label:'Good',  sub:nextI+'d', cls:'r-good'},
+    {q:5, label:'Easy',  sub:Math.round(nextI * Math.max(1.3, s.ef + 0.15) * 1.3)+'d', cls:'r-easy'}
   ];
 }
 
-// ── CSV Parsing ────────────────────────────────────────────────────────────
+// ── HTML fragment helpers ─────────────────────────────────────────────────
+function renderSessionHeader(pct, label) {
+  return '<div class="session-header">' +
+    '<button class="btn-sm" onclick="backToSetup()">&#8592; Back</button>' +
+    '<div class="progress-wrap"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+    '<div class="session-info">' + label + '</div>' +
+    '</div>';
+}
+function renderResults(title, subtitle, statsHtml) {
+  return '<div class="results">' +
+    '<h2>' + title + '</h2>' +
+    '<p>' + subtitle + '</p>' +
+    '<div class="stat-row">' + statsHtml + '</div>' +
+    '<button class="start-btn" style="max-width:280px;margin:0 auto;display:block" onclick="backToSetup()">Back to study</button>' +
+    '</div>';
+}
+function renderCatStats(due, newCards, total, mode, quickFilter) {
+  if (mode === 'teach') {
+    return '<div class="cat-stats-row"><div class="cat-stat"><div class="cat-stat-val">' + total + '</div><div class="cat-stat-lbl">Total</div></div></div>';
+  }
+  var stats = [];
+  if (quickFilter !== 'new') stats.push('<div class="cat-stat"><div class="cat-stat-val due-val">' + due + '</div><div class="cat-stat-lbl">Due</div></div>');
+  if (quickFilter !== 'due') stats.push('<div class="cat-stat"><div class="cat-stat-val new-val">' + newCards + '</div><div class="cat-stat-lbl">New</div></div>');
+  stats.push('<div class="cat-stat"><div class="cat-stat-val">' + total + '</div><div class="cat-stat-lbl">Total</div></div>');
+  return '<div class="cat-stats-row">' + stats.join('') + '</div>';
+}
+
+// ── CSV Parsing ───────────────────────────────────────────────────────────
 function parseCSV(text, filename) {
   const raw = text.trim().split(/\r?\n/).filter(l => l.trim());
   if (!raw.length) return null;
@@ -365,29 +401,26 @@ function parseCSV(text, filename) {
   let startRow = 0;
   const firstCols = splitLine(raw[0]).map(c => c.toLowerCase());
   if (firstCols[0].includes('question') || firstCols[0].includes('front') ||
-      firstCols[0].includes('term') || firstCols[0].includes('q')) startRow = 1;
+      firstCols[0].includes('term')     || firstCols[0].includes('q')) startRow = 1;
   const cards = [];
   for (let i = startRow; i < raw.length; i++) {
     const cols = splitLine(raw[i]);
     const q = cols[0] || '';
     const a = cols[1] || '';
     if (!q) continue;
-    cards.push({
-      id: filename + '_' + i,
-      q, a, cat: cols[2] || 'Uncategorized'
-    });
+    cards.push({ id: filename + '_' + i, q, a, cat: cols[2] || UNCATEGORIZED });
   }
   return cards.length ? cards : null;
 }
 
-// ── File Upload ────────────────────────────────────────────────────────────
+// ── File upload ───────────────────────────────────────────────────────────
 document.getElementById('csv-file').addEventListener('change', function() {
   [...this.files].forEach(loadFile);
   this.value = '';
 });
 
 const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
 dz.addEventListener('drop', e => {
   e.preventDefault(); dz.classList.remove('drag');
@@ -409,13 +442,12 @@ function loadFile(file) {
     const cards = parseCSV(ev.target.result, file.name);
     if (!cards) { showFileError('Could not parse "' + file.name + '" — check it has question and answer columns.'); return; }
     const name = file.name.replace(/\.csv$/i, '');
-    const idx = S.decks.findIndex(d => d.name === name);
+    const idx  = S.decks.findIndex(d => d.name === name);
     if (idx >= 0) S.decks[idx].cards = cards;
     else S.decks.push({name, cards});
-    // auto-select deck and its categories
     S.selDecks.add(name);
-    cards.forEach(c => S.selCats.add(c.cat || 'Uncategorized'));
-    saveToStorage();
+    cards.forEach(c => S.selCats.add(c.cat || UNCATEGORIZED));
+    saveDecks();
     renderDecks();
   };
   reader.onerror = () => showFileError('Failed to read "' + file.name + '".');
@@ -424,20 +456,18 @@ function loadFile(file) {
 
 // ── Render Decks ──────────────────────────────────────────────────────────
 function renderDecks() {
-  const el = document.getElementById('deck-list');
+  const el  = document.getElementById('deck-list');
   const tab = document.getElementById('tab-study');
-  const total = allCards().length;
+  const total = S.decks.reduce((sum, d) => sum + d.cards.length, 0);
   tab.innerHTML = total ? 'Study <span class="badge">' + total + '</span>' : 'Study';
 
-  // Update page title
-  if (S.decks.length === 1) document.title = S.decks[0].name + ' — Flashcards';
-  else if (S.decks.length > 1) document.title = S.decks.length + ' decks — Flashcards';
-  else document.title = 'Flashcards';
+  if (S.decks.length === 1)      document.title = S.decks[0].name + ' — Flashcards';
+  else if (S.decks.length > 1)   document.title = S.decks.length + ' decks — Flashcards';
+  else                           document.title = 'Flashcards';
 
-  // Toggle upload zone
-  var uploadFull = document.getElementById('upload-full');
+  var uploadFull    = document.getElementById('upload-full');
   var uploadCompact = document.getElementById('upload-compact');
-  if (uploadFull) uploadFull.style.display = S.decks.length ? 'none' : 'block';
+  if (uploadFull)    uploadFull.style.display    = S.decks.length ? 'none'  : 'block';
   if (uploadCompact) uploadCompact.style.display = S.decks.length ? 'block' : 'none';
 
   if (!S.decks.length) {
@@ -445,7 +475,7 @@ function renderDecks() {
     return;
   }
   el.innerHTML = S.decks.map((d, i) => {
-    const cats = [...new Set(d.cards.map(c => c.cat || 'Uncategorized'))];
+    const cats = [...new Set(d.cards.map(c => c.cat || UNCATEGORIZED))];
     return '<div class="deck-card" id="deck-row-' + i + '">' +
       '<div style="flex:1;min-width:0">' +
       '<div class="deck-name" id="deck-name-' + i + '">' + esc(d.name) + '</div>' +
@@ -460,7 +490,7 @@ function renderDecks() {
 
 // ── Deck Actions ──────────────────────────────────────────────────────────
 function startRename(i) {
-  const nameEl = document.getElementById('deck-name-' + i);
+  const nameEl  = document.getElementById('deck-name-' + i);
   const current = S.decks[i].name;
   nameEl.innerHTML =
     '<input class="deck-name-input" id="rename-input-' + i + '" type="text" value="' + esc(current) + '" maxlength="80" onclick="event.stopPropagation()">' +
@@ -469,10 +499,9 @@ function startRename(i) {
     '<button class="btn-sm" style="padding:4px 10px" onclick="renderDecks()">Cancel</button>' +
     '</div>';
   const input = document.getElementById('rename-input-' + i);
-  input.focus();
-  input.select();
+  input.focus(); input.select();
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') commitRename(i);
+    if (e.key === 'Enter')  commitRename(i);
     if (e.key === 'Escape') renderDecks();
   });
 }
@@ -483,20 +512,17 @@ function commitRename(i) {
   const newName = input.value.trim();
   if (!newName) { renderDecks(); return; }
   if (S.decks.some((d, j) => j !== i && d.name === newName)) {
-    input.style.borderColor = '#E24B4A';
-    input.focus();
-    return;
+    input.style.borderColor = '#E24B4A'; input.focus(); return;
   }
   S.decks[i].name = newName;
-  saveToStorage();
+  saveDecks();
   renderDecks();
 }
 
 function removeDeck(i) {
   const row = document.getElementById('deck-row-' + i);
   if (!row) return;
-  const actions = row.querySelector('.deck-actions');
-  actions.innerHTML =
+  row.querySelector('.deck-actions').innerHTML =
     '<span style="font-size:13px;color:var(--txt2)">Remove?</span>' +
     '<button class="btn-sm btn-danger" onclick="confirmRemove(' + i + ')">Yes</button>' +
     '<button class="btn-sm" onclick="renderDecks()">No</button>';
@@ -504,7 +530,7 @@ function removeDeck(i) {
 
 function confirmRemove(i) {
   S.decks.splice(i, 1);
-  saveToStorage();
+  saveDecks();
   renderDecks();
 }
 
@@ -514,7 +540,7 @@ function showTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'study') renderSetup();
+  if (name === 'study')    renderSetup();
   if (name === 'progress') renderProgress();
 }
 
@@ -523,7 +549,6 @@ function renderSetup() {
   document.getElementById('setup-view').style.display = 'block';
   document.getElementById('session-view').style.display = 'none';
 
-  // Render deck toggles
   const deckGrid = document.getElementById('deck-toggle-grid');
   if (!S.decks.length) {
     deckGrid.innerHTML = '<p style="color:var(--txt2);font-size:13px">Load a deck first.</p>';
@@ -537,9 +562,8 @@ function renderSetup() {
     return '<div class="deck-toggle' + (sel?' sel':'') + '" onclick="toggleDeck(this,\'' + nameEsc + '\')">' + esc(d.name) + '</div>';
   }).join('');
 
-  // Cards from selected decks only
   const _allCards = allCards().filter(c => S.selDecks.has(c.deckName));
-  const cats = [...new Set(_allCards.map(c => c.cat || 'Uncategorized'))].sort();
+  const cats = [...new Set(_allCards.map(c => c.cat || UNCATEGORIZED))].sort();
   const grid = document.getElementById('cat-grid');
   if (!cats.length) {
     grid.innerHTML = '<p style="color:var(--txt2);font-size:13px">No categories in selected decks.</p>';
@@ -549,56 +573,41 @@ function renderSetup() {
     S.quickFilter = null;
     return;
   }
-  // Remove stale categories no longer in filtered set
   [...S.selCats].forEach(c => { if (!cats.includes(c)) S.selCats.delete(c); });
 
+  const cardsByCat = {};
+  _allCards.forEach(c => {
+    const cat = c.cat || UNCATEGORIZED;
+    if (!cardsByCat[cat]) cardsByCat[cat] = [];
+    cardsByCat[cat].push(c);
+  });
+
   grid.innerHTML = cats.map(c => {
-    const cards = _allCards.filter(x => (x.cat||'Uncategorized') === c);
-    const total = cards.length;
+    const cards    = cardsByCat[c] || [];
+    const total    = cards.length;
     const newCards = cards.filter(x => !S.srs[x.id]).length;
-    const due = cards.filter(x => S.srs[x.id] && isDue(x)).length;
-    // Hide categories with no relevant cards when a quick filter is active
-    if (S.quickFilter === 'due' && due === 0) return '';
+    const due      = cards.filter(x => S.srs[x.id] && isDue(x)).length;
+    if (S.quickFilter === 'due' && due === 0)      return '';
     if (S.quickFilter === 'new' && newCards === 0) return '';
     const sel = S.selCats.has(c);
     var catEsc = c.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    var statsHtml;
-    if (S.mode === 'teach') {
-      statsHtml = '<div class="cat-stats-row"><div class="cat-stat"><div class="cat-stat-val">' + total + '</div><div class="cat-stat-lbl">Total</div></div></div>';
-    } else if (S.quickFilter === 'due') {
-      statsHtml = '<div class="cat-stats-row">' +
-        '<div class="cat-stat"><div class="cat-stat-val due-val">' + due + '</div><div class="cat-stat-lbl">Due</div></div>' +
-        '<div class="cat-stat"><div class="cat-stat-val">' + total + '</div><div class="cat-stat-lbl">Total</div></div>' +
-        '</div>';
-    } else if (S.quickFilter === 'new') {
-      statsHtml = '<div class="cat-stats-row">' +
-        '<div class="cat-stat"><div class="cat-stat-val new-val">' + newCards + '</div><div class="cat-stat-lbl">New</div></div>' +
-        '<div class="cat-stat"><div class="cat-stat-val">' + total + '</div><div class="cat-stat-lbl">Total</div></div>' +
-        '</div>';
-    } else {
-      statsHtml = '<div class="cat-stats-row">' +
-        '<div class="cat-stat"><div class="cat-stat-val due-val">' + due + '</div><div class="cat-stat-lbl">Due</div></div>' +
-        '<div class="cat-stat"><div class="cat-stat-val new-val">' + newCards + '</div><div class="cat-stat-lbl">New</div></div>' +
-        '<div class="cat-stat"><div class="cat-stat-val">' + total + '</div><div class="cat-stat-lbl">Total</div></div>' +
-        '</div>';
-    }
     return '<div class="cat-chip' + (sel?' sel':'') + '" onclick="toggleCat(this,\'' + catEsc + '\')">' +
-      '<div class="cat-chip-name">' + esc(c) + '</div>' + statsHtml + '</div>';
+      '<div class="cat-chip-name">' + esc(c) + '</div>' +
+      renderCatStats(due, newCards, total, S.mode, S.quickFilter) +
+      '</div>';
   }).join('');
-  // Quick filter buttons
+
   var qfRow = document.getElementById('quick-filter-row');
   if (S.selDecks.size > 0 && S.mode !== 'teach') {
     qfRow.style.display = 'block';
     var dueBtn = document.getElementById('qf-due-btn');
     var newBtn = document.getElementById('qf-new-btn');
     dueBtn.classList.toggle('btn-rename', S.quickFilter === 'due');
-    dueBtn.classList.toggle('sel', false);
     newBtn.classList.toggle('btn-rename', S.quickFilter === 'new');
-    newBtn.classList.toggle('sel', false);
-    if (S.quickFilter === 'due') dueBtn.style.borderColor = 'var(--accent)'; else dueBtn.style.borderColor = '';
-    if (S.quickFilter === 'due') dueBtn.style.color = 'var(--accent)'; else dueBtn.style.color = '';
-    if (S.quickFilter === 'new') newBtn.style.borderColor = 'var(--accent)'; else newBtn.style.borderColor = '';
-    if (S.quickFilter === 'new') newBtn.style.color = 'var(--accent)'; else newBtn.style.color = '';
+    dueBtn.style.borderColor = S.quickFilter === 'due' ? 'var(--accent)' : '';
+    dueBtn.style.color       = S.quickFilter === 'due' ? 'var(--accent)' : '';
+    newBtn.style.borderColor = S.quickFilter === 'new' ? 'var(--accent)' : '';
+    newBtn.style.color       = S.quickFilter === 'new' ? 'var(--accent)' : '';
   } else {
     qfRow.style.display = 'none';
     S.quickFilter = null;
@@ -613,26 +622,22 @@ function toggleDeck(el, name) {
   } else {
     S.selDecks.add(name);
     el.classList.add('sel');
-    // auto-select categories from newly enabled deck
     S.decks.filter(d => d.name === name).forEach(d =>
-      d.cards.forEach(c => S.selCats.add(c.cat || 'Uncategorized'))
+      d.cards.forEach(c => S.selCats.add(c.cat || UNCATEGORIZED))
     );
   }
   renderSetup();
 }
 
 function toggleCat(el, cat) {
-  if (S.selCats.has(cat)) {
-    S.selCats.delete(cat);
-  } else {
-    S.selCats.add(cat);
-  }
+  if (S.selCats.has(cat)) S.selCats.delete(cat);
+  else                    S.selCats.add(cat);
   renderSetup();
 }
 
 function selectAllCats() {
   S.decks.forEach(d => S.selDecks.add(d.name));
-allCats().forEach(c => S.selCats.add(c));
+  allCats().forEach(c => S.selCats.add(c));
   renderSetup();
 }
 
@@ -656,27 +661,24 @@ function selMode(m) {
 
 // ── Session ───────────────────────────────────────────────────────────────
 function startSession() {
-  let cards = allCards().filter(c => S.selDecks.has(c.deckName) && S.selCats.has(c.cat || 'Uncategorized'));
-  if (S.quickFilter === 'due') {
-    cards = cards.filter(c => S.srs[c.id] && isDue(c));
-  } else if (S.quickFilter === 'new') {
-    cards = cards.filter(c => !S.srs[c.id]);
-  }
+  let cards = allCards().filter(c => S.selDecks.has(c.deckName) && S.selCats.has(c.cat || UNCATEGORIZED));
+  if (S.quickFilter === 'due') cards = cards.filter(c =>  S.srs[c.id] && isDue(c));
+  if (S.quickFilter === 'new') cards = cards.filter(c => !S.srs[c.id]);
   if (!cards.length) return;
   document.getElementById('setup-view').style.display = 'none';
   document.getElementById('session-view').style.display = 'block';
   if (S.mode === 'teach') runTeach(cards);
   else {
     const neverSeen = cards.filter(c => !S.srs[c.id]);
-    const due      = cards.filter(c =>  S.srs[c.id] && isDue(c));
-    const notDue   = cards.filter(c =>  S.srs[c.id] && !isDue(c))
-                          .sort((a, b) => getSRS(a.id).due - getSRS(b.id).due);
+    const due       = cards.filter(c =>  S.srs[c.id] && isDue(c));
+    const notDue    = cards.filter(c =>  S.srs[c.id] && !isDue(c))
+                           .sort((a, b) => getSRS(a.id).due - getSRS(b.id).due);
     runStudy([...neverSeen, ...due, ...notDue]);
   }
 }
 
 function backToSetup() {
-  _studyState = null;
+  _studyState  = null;
   _teachActive = false;
   document.getElementById('setup-view').style.display = 'block';
   document.getElementById('session-view').style.display = 'none';
@@ -685,32 +687,26 @@ function backToSetup() {
 
 // ── Teach Mode ────────────────────────────────────────────────────────────
 function runTeach(originalCards) {
-  _studyState = null;
+  _studyState  = null;
   _teachActive = true;
-  let idx = 0;
-  let shuffleOn = false;
+  let idx = 0, shuffleOn = false;
   let cards = originalCards.slice();
-  let seen = new Set();
-  seen.add(cards[0].id); // count first card as seen immediately
+  let seen  = new Set([cards[0].id]);
 
   function render() {
     const c = cards[idx];
     seen.add(c.id);
     const seenPct = Math.round(seen.size / cards.length * 100);
     document.getElementById('session-view').innerHTML =
-      '<div class="session-header">' +
-      '<button class="btn-sm" onclick="backToSetup()">&#8592; Back</button>' +
-      '<div class="progress-wrap"><div class="progress-fill" style="width:' + seenPct + '%"></div></div>' +
-      '<div class="session-info">' + seen.size + ' / ' + cards.length + '</div>' +
-      '</div>' +
+      renderSessionHeader(seenPct, seen.size + ' / ' + cards.length) +
       '<div class="teach-card">' +
-      '<div class="teach-cat">' + esc(c.cat||'Uncategorized') + ' &middot; ' + esc(c.deckName) + '</div>' +
+      '<div class="teach-cat">' + esc(c.cat||UNCATEGORIZED) + ' &middot; ' + esc(c.deckName) + '</div>' +
       '<div class="teach-q">' + esc(c.q) + '</div>' +
       '<div class="teach-a">' + esc(c.a) + '</div>' +
       '</div>' +
       '<div class="nav-btns">' +
       '<button class="nav-btn" onclick="teachStep(-1)" ' + (idx===0?'disabled':'') + '>&#8592; Prev</button>' +
-      '<button class="nav-btn' + (shuffleOn ? ' primary' : '') + '" onclick="teachToggleShuffle()" style="flex:0;padding:10px 16px" title="Shuffle">&#128257; Shuffle</button>' +
+      '<button class="nav-btn' + (shuffleOn?' primary':'') + '" onclick="teachToggleShuffle()" style="flex:0;padding:10px 16px" title="Shuffle">&#128257; Shuffle</button>' +
       (idx < cards.length-1
         ? '<button class="nav-btn primary" onclick="teachStep(1)">Next &#8594;</button>'
         : '<button class="nav-btn primary" onclick="teachDone(' + seen.size + ')">Finish &#10003;</button>') +
@@ -719,35 +715,31 @@ function runTeach(originalCards) {
 
   window.teachStep = d => { idx = Math.max(0, Math.min(cards.length-1, idx+d)); render(); };
   window.teachToggleShuffle = () => {
-    const currentCard = cards[idx];
+    const cur = cards[idx];
     shuffleOn = !shuffleOn;
+    cards = originalCards.slice();
     if (shuffleOn) {
-      cards = originalCards.slice();
-      for (let i = cards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
+      for (let i = cards.length-1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i+1));
         [cards[i], cards[j]] = [cards[j], cards[i]];
       }
-    } else {
-      cards = originalCards.slice();
     }
-    idx = cards.findIndex(c => c.id === currentCard.id);
+    idx = cards.findIndex(c => c.id === cur.id);
     if (idx < 0) idx = 0;
     render();
   };
   window.teachDone = n => {
-    document.getElementById('session-view').innerHTML =
-      '<div class="results">' +
-      '<h2>Session complete!</h2>' +
-      '<p>You reviewed ' + n + ' cards in teaching mode.</p>' +
-      '<div class="stat-row"><div class="stat-card"><div class="stat-val">' + n + '</div><div class="stat-lbl">cards seen</div></div></div>' +
-      '<button class="start-btn" style="max-width:280px;margin:0 auto;display:block" onclick="backToSetup()">Back to study</button>' +
-      '</div>';
+    document.getElementById('session-view').innerHTML = renderResults(
+      'Session complete!',
+      'You reviewed ' + n + ' cards in teaching mode.',
+      '<div class="stat-card"><div class="stat-val">' + n + '</div><div class="stat-lbl">cards seen</div></div>'
+    );
   };
   render();
 }
 
-// ── Study Mode (SM-2 SRS) ─────────────────────────────────────────────────
-let _studyState = null;
+// ── Study Mode (SM-2) ─────────────────────────────────────────────────────
+let _studyState  = null;
 let _teachActive = false;
 
 function flipCard() {
@@ -758,7 +750,7 @@ function flipCard() {
   var hint = document.getElementById('card-hint');
   if (hint) hint.style.opacity = '0';
   var r = document.getElementById('rate-row');
-  if (r) { r.style.display = 'block'; }
+  if (r) r.style.display = 'block';
 }
 
 function rate(q) {
@@ -770,59 +762,48 @@ function rate(q) {
   _studyState.idx++;
   _studyState.flipped = false;
   if (q === 0) {
-    // Re-queue Again card: insert it back after ~5 remaining cards (or at end)
-    var remaining = _studyState.cards.length - _studyState.idx;
-    var insertAt = _studyState.idx + Math.min(5, remaining);
+    var insertAt = _studyState.idx + Math.min(5, _studyState.cards.length - _studyState.idx);
     _studyState.cards.splice(insertAt, 0, card);
   }
   renderStudyCard();
 }
 
 function renderStudyCard() {
-  var cards = _studyState.cards;
-  var idx = _studyState.idx;
-  var correct = _studyState.correct;
-  var total = _studyState.total;
-  var dueCount = _studyState.cards.slice(_studyState.idx).filter(function(c){ return S.srs[c.id] && isDue(c); }).length;
+  var cards    = _studyState.cards;
+  var idx      = _studyState.idx;
+  var correct  = _studyState.correct;
+  var total    = _studyState.total;
+  var dueCount = cards.slice(idx).filter(function(c){ return S.srs[c.id] && isDue(c); }).length;
   if (idx >= cards.length) {
-    var pct = total > 0 ? Math.round(correct / total * 100) : 0;
+    var pct   = total > 0 ? Math.round(correct / total * 100) : 0;
     var emoji = pct >= 80 ? '\uD83C\uDF89' : '\uD83D\uDCAA';
-    document.getElementById('session-view').innerHTML =
-      '<div class="results">' +
-      '<h2>' + emoji + (pct >= 80 ? ' Great work!' : ' Keep going!') + '</h2>' +
-      '<p>Session complete &mdash; ' + total + ' card' + (total !== 1 ? 's' : '') + ' reviewed</p>' +
-      '<div class="stat-row">' +
-      '<div class="stat-card"><div class="stat-val">' + total + '</div><div class="stat-lbl">reviewed</div></div>' +
+    document.getElementById('session-view').innerHTML = renderResults(
+      emoji + (pct >= 80 ? ' Great work!' : ' Keep going!'),
+      'Session complete &mdash; ' + total + ' card' + (total !== 1 ? 's' : '') + ' reviewed',
+      '<div class="stat-card"><div class="stat-val">' + total   + '</div><div class="stat-lbl">reviewed</div></div>' +
       '<div class="stat-card"><div class="stat-val">' + correct + '</div><div class="stat-lbl">correct</div></div>' +
-      '<div class="stat-card"><div class="stat-val">' + pct + '%</div><div class="stat-lbl">accuracy</div></div>' +
-      '</div>' +
-      '<button class="start-btn" style="max-width:280px;margin:0 auto;display:block" onclick="backToSetup()">Back to study</button>' +
-      '</div>';
+      '<div class="stat-card"><div class="stat-val">' + pct     + '%</div><div class="stat-lbl">accuracy</div></div>'
+    );
     return;
   }
-  var c = cards[idx];
-  var prevs = nextIntervals(c.id);
-  var rateBtns = prevs.map(function(p) {
+  var c        = cards[idx];
+  var rateBtns = nextIntervals(c.id).map(function(p) {
     return '<button class="rate-btn ' + p.cls + '" onclick="event.stopPropagation();rate(' + p.q + ')">' + p.label + '<small>' + p.sub + '</small></button>';
   }).join('');
   document.getElementById('session-view').innerHTML =
-    '<div class="session-header">' +
-    '<button class="btn-sm" onclick="backToSetup()">&#8592; Back</button>' +
-    '<div class="progress-wrap"><div class="progress-fill" style="width:' + Math.round(idx / cards.length * 100) + '%"></div></div>' +
-    '<div class="session-info">' + (idx+1) + '/' + cards.length + ' &middot; <span style="color:var(--accent)">' + dueCount + ' due</span></div>' +
-    '</div>' +
+    renderSessionHeader(Math.round(idx / cards.length * 100), (idx+1) + '/' + cards.length + ' &middot; <span style="color:var(--accent)">' + dueCount + ' due</span>') +
     '<div class="card-scene">' +
     '<div class="card-inner" id="card-inner" onclick="flipCard()">' +
     '<div class="card-face">' +
     '<div class="card-label">Question</div>' +
     '<div class="card-q-text">' + esc(c.q) + '</div>' +
     '<div class="card-hint" id="card-hint">tap to reveal &middot; or press space</div>' +
-    '<div class="card-cat">' + esc(c.cat || 'Uncategorized') + '</div>' +
+    '<div class="card-cat">' + esc(c.cat || UNCATEGORIZED) + '</div>' +
     '</div>' +
     '<div class="card-face card-back">' +
     '<div class="card-label">Answer</div>' +
     '<div class="card-a-text">' + esc(c.a) + '</div>' +
-    '<div class="card-cat">' + esc(c.cat || 'Uncategorized') + '</div>' +
+    '<div class="card-cat">' + esc(c.cat || UNCATEGORIZED) + '</div>' +
     '</div>' +
     '</div>' +
     '</div>' +
@@ -833,19 +814,17 @@ function renderStudyCard() {
 
 function runStudy(cards) {
   _teachActive = false;
-  _studyState = { cards: cards, idx: 0, correct: 0, total: 0, flipped: false };
+  _studyState  = { cards: cards, idx: 0, correct: 0, total: 0, flipped: false };
   renderStudyCard();
 }
 
 // ── Keyboard Shortcuts ────────────────────────────────────────────────────
 document.addEventListener('keydown', function(e) {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  // Teach mode: arrow navigation
   if (_teachActive && typeof window.teachStep === 'function') {
     if (e.key === 'ArrowLeft')  { e.preventDefault(); window.teachStep(-1); return; }
     if (e.key === 'ArrowRight') { e.preventDefault(); window.teachStep(1);  return; }
   }
-  // Study mode: flip + rate
   if (!_studyState) return;
   if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); return; }
   if (_studyState.flipped) {
@@ -856,11 +835,9 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-
 // ── Progress Panel ────────────────────────────────────────────────────────
 var progressSortAsc = false;
 
-// Classify a card's rating bucket from its last rating (or ef as fallback)
 function ratingBucket(srs) {
   if (srs.reps === 0 && srs.lastQ === undefined) return 'new';
   if (srs.lastQ !== undefined) {
@@ -869,7 +846,7 @@ function ratingBucket(srs) {
     if (srs.lastQ >= 2) return 'hard';
     return 'again';
   }
-  // Fallback for old data without lastQ: use ef
+  // ef is the only signal for legacy data without lastQ
   var ef = srs.ef || 2.5;
   if (ef >= 2.7) return 'easy';
   if (ef >= 2.3) return 'good';
@@ -878,78 +855,62 @@ function ratingBucket(srs) {
 }
 
 function renderProgress() {
-  var el = document.getElementById('progress-content');
-  var cats = allCats();
+  var el    = document.getElementById('progress-content');
+  var cards = allCards();
+  var cats  = [...new Set(cards.map(function(c){ return c.cat||UNCATEGORIZED; }))].sort();
   if (!cats.length) {
     el.innerHTML = '<div class="empty"><div class="empty-icon">&#128202;</div><p>No decks loaded yet.</p></div>';
     return;
   }
-
   var catStats = cats.map(function(cat) {
-    var cards = allCards().filter(function(c) { return (c.cat||'Uncategorized') === cat; });
-    var total = cards.length;
-    var counts = { new: 0, again: 0, hard: 0, good: 0, easy: 0 };
-    cards.forEach(function(c) { counts[ratingBucket(getSRS(c.id))]++; });
-    // Score: weight each bucket 0-3, normalise to 0-100 over studied cards
+    var catCards = cards.filter(function(c){ return (c.cat||UNCATEGORIZED) === cat; });
+    var total    = catCards.length;
+    var counts   = { new:0, again:0, hard:0, good:0, easy:0 };
+    catCards.forEach(function(c){ counts[ratingBucket(getSRS(c.id))]++; });
     var studied = total - counts['new'];
-    var score = studied > 0
-      ? Math.round((counts.again*0 + counts.hard*1 + counts.good*2 + counts.easy*3) / (studied * 3) * 100)
+    var score   = studied > 0
+      ? Math.round((counts.again*0 + counts.hard*1 + counts.good*2 + counts.easy*3) / (studied*3) * 100)
       : 0;
-    return { cat: cat, total: total, counts: counts, score: score };
+    return { cat:cat, total:total, counts:counts, score:score };
   });
-
   catStats.sort(function(a, b) {
-    var aStarted = a.total - a.counts['new'] > 0;
-    var bStarted = b.total - b.counts['new'] > 0;
-    // Not started always goes to bottom regardless of sort direction
-    if (aStarted && !bStarted) return -1;
-    if (!aStarted && bStarted) return 1;
+    var aS = a.total - a.counts['new'] > 0;
+    var bS = b.total - b.counts['new'] > 0;
+    if (aS && !bS) return -1;
+    if (!aS && bS) return 1;
     return progressSortAsc ? a.score - b.score : b.score - a.score;
   });
-
   var sortLabel = progressSortAsc ? '&#8593; Worst first' : '&#8595; Best first';
   var html =
     '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
     '<div style="display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--txt2)">' +
-    '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A;display:inline-block"></span>Again</span>' +
-    '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27;display:inline-block"></span>Hard</span>' +
-    '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;display:inline-block"></span>Good</span>' +
-    '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD;display:inline-block"></span>Easy</span>' +
+    ['again','hard','good','easy'].map(function(k){
+      return '<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:' + RATING_COLORS[k] + ';display:inline-block"></span>' + k.charAt(0).toUpperCase()+k.slice(1) + '</span>';
+    }).join('') +
     '</div>' +
     '<button class="btn-sm" onclick="toggleProgressSort()" style="font-size:12px;flex-shrink:0">' + sortLabel + '</button>' +
     '</div>';
-
   catStats.forEach(function(s) {
-    var t = s.total;
-    var c = s.counts;
+    var t = s.total, c = s.counts;
     var studied = t - c['new'];
-    // Stacked bar segments as % of total cards
-    var againPct  = t > 0 ? c.again / t * 100 : 0;
-    var hardPct   = t > 0 ? c.hard  / t * 100 : 0;
-    var goodPct   = t > 0 ? c.good  / t * 100 : 0;
-    var easyPct   = t > 0 ? c.easy  / t * 100 : 0;
     var scoreLabel = studied > 0 ? s.score + '% performance' : 'Not started';
     html +=
       '<div class="prog-cat">' +
-      '<div class="prog-cat-header">' +
-      '<div class="prog-cat-name">' + esc(s.cat) + '</div>' +
-      '<div class="prog-cat-sub">' + scoreLabel + '</div>' +
-      '</div>' +
+      '<div class="prog-cat-header"><div class="prog-cat-name">' + esc(s.cat) + '</div><div class="prog-cat-sub">' + scoreLabel + '</div></div>' +
       '<div class="prog-bar-wrap">' +
-      (againPct > 0 ? '<div class="prog-seg" style="width:' + againPct.toFixed(1) + '%;background:#E24B4A"></div>' : '') +
-      (hardPct  > 0 ? '<div class="prog-seg" style="width:' + hardPct.toFixed(1)  + '%;background:#EF9F27"></div>' : '') +
-      (goodPct  > 0 ? '<div class="prog-seg" style="width:' + goodPct.toFixed(1)  + '%;background:#1D9E75"></div>' : '') +
-      (easyPct  > 0 ? '<div class="prog-seg" style="width:' + easyPct.toFixed(1)  + '%;background:#378ADD"></div>' : '') +
+      ['again','hard','good','easy'].map(function(k){
+        var pct = t > 0 ? c[k]/t*100 : 0;
+        return pct > 0 ? '<div class="prog-seg" style="width:' + pct.toFixed(1) + '%;background:' + RATING_COLORS[k] + '"></div>' : '';
+      }).join('') +
       '</div>' +
       '<div class="prog-stats">' +
-      (c['new']  > 0 ? '<span class="prog-stat new">'      + c['new']  + ' new</span>'  : '') +
-      (c.again   > 0 ? '<span class="prog-stat due">'      + c.again   + ' again</span>': '') +
-      (c.hard    > 0 ? '<span class="prog-stat learning">' + c.hard    + ' hard</span>' : '') +
-      (c.good    > 0 ? '<span class="prog-stat mastered">' + c.good    + ' good</span>' : '') +
-      (c.easy    > 0 ? '<span class="prog-stat new">'      + c.easy    + ' easy</span>' : '') +
-      (studied === 0 ? '<span class="prog-stat">No ratings yet</span>' : '') +
-      '</div>' +
-      '</div>';
+      (c['new']  > 0 ? '<span class="prog-stat new">'      + c['new']  + ' new</span>'   : '') +
+      (c.again   > 0 ? '<span class="prog-stat due">'      + c.again   + ' again</span>' : '') +
+      (c.hard    > 0 ? '<span class="prog-stat learning">' + c.hard    + ' hard</span>'  : '') +
+      (c.good    > 0 ? '<span class="prog-stat mastered">' + c.good    + ' good</span>'  : '') +
+      (c.easy    > 0 ? '<span class="prog-stat new">'      + c.easy    + ' easy</span>'  : '') +
+      (studied   === 0 ? '<span class="prog-stat">No ratings yet</span>' : '') +
+      '</div></div>';
   });
   el.innerHTML = html;
 }
@@ -964,12 +925,11 @@ function esc(s) {
 }
 
 // ── Default CSV Auto-load ─────────────────────────────────────────────────
-// Fetches DEFAULT_CSV from the same directory on first visit (works when
-// served over HTTP/HTTPS; silently skipped when opened as file://).
+// Works over HTTP/HTTPS; silently skipped on file:// protocol.
 function loadDefaultCSV() {
   if (!DEFAULT_CSV) return;
   const name = DEFAULT_CSV.replace(/\.csv$/i, '');
-  if (S.decks.find(d => d.name === name)) return; // already loaded
+  if (S.decks.find(d => d.name === name)) return;
   fetch('./' + DEFAULT_CSV.split('/').map(encodeURIComponent).join('/'))
     .then(r => { if (!r.ok) throw new Error('not found'); return r.text(); })
     .then(text => {
@@ -977,13 +937,12 @@ function loadDefaultCSV() {
       if (!cards) return;
       S.decks.push({ name, cards });
       S.selDecks.add(name);
-      cards.forEach(c => S.selCats.add(c.cat || 'Uncategorized'));
-      saveToStorage();
+      cards.forEach(c => S.selCats.add(c.cat || UNCATEGORIZED));
+      saveDecks();
       renderDecks();
-      // Switch straight to Study tab since we have cards now
       showTab('study');
     })
-    .catch(() => {}); // silently fail — file not found or file:// protocol
+    .catch(() => {});
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────
